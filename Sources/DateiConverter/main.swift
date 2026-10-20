@@ -369,15 +369,16 @@ struct ContentView: View {
             outputURL = folder.appendingPathComponent("\(name) (\(suffix))").appendingPathExtension(outputFormat)
             suffix += 1
         }
+        let destinationURL = outputURL
         isConverting = true; resultText = "Die Datei wird auf deinem Mac umgewandelt …"; resultIsError = false
         Task {
             do {
-                try await ConversionEngine.convert(input: inputURL, output: outputURL, format: outputFormat, kind: fileKind)
-                resultText = "Fertig: \(outputURL.lastPathComponent)"
-                NSWorkspace.shared.activateFileViewerSelecting([outputURL])
+                try await ConversionEngine.convert(input: inputURL, output: destinationURL, format: outputFormat, kind: fileKind)
+                resultText = "Fertig: \(destinationURL.lastPathComponent)"
+                NSWorkspace.shared.activateFileViewerSelecting([destinationURL])
             } catch {
                 resultText = error.localizedDescription; resultIsError = true
-                try? FileManager.default.removeItem(at: outputURL)
+                try? FileManager.default.removeItem(at: destinationURL)
             }
             isConverting = false
         }
