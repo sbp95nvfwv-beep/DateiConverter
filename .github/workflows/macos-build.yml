@@ -17,10 +17,11 @@ jobs:
       - name: Build universal macOS app
         run: |
           swift build -c release --triple arm64-apple-macosx13.0
-          cp .build/arm64-apple-macosx/release/DateiConverter /tmp/DateiConverter-arm64
+          cp "$(swift build --show-bin-path -c release --triple arm64-apple-macosx13.0)/DateiConverter" /tmp/DateiConverter-arm64
           swift build -c release --triple x86_64-apple-macosx13.0
           mkdir -p dist/DateiConverter.app/Contents/MacOS
-          lipo -create /tmp/DateiConverter-arm64 .build/x86_64-apple-macosx/release/DateiConverter -output dist/DateiConverter.app/Contents/MacOS/DateiConverter
+          cp "$(swift build --show-bin-path -c release --triple x86_64-apple-macosx13.0)/DateiConverter" /tmp/DateiConverter-x86_64
+          lipo -create /tmp/DateiConverter-arm64 /tmp/DateiConverter-x86_64 -output dist/DateiConverter.app/Contents/MacOS/DateiConverter
           cp Packaging/Info.plist dist/DateiConverter.app/Contents/Info.plist
           codesign --force --deep --sign - dist/DateiConverter.app
           ditto -c -k --sequesterRsrc --keepParent dist/DateiConverter.app DateiConverter-macOS.zip

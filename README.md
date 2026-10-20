@@ -17,3 +17,7 @@ swift build -c release
 ```
 
 GitHub Actions baut bei jedem Push eine universelle macOS-App für Apple Silicon und Intel. Bei einem Versions-Tag wird die App als dauerhaftes ZIP in einer GitHub-Release veröffentlicht.
+
+## App herunterladen
+
+Öffne **Releases** auf GitHub und lade `DateiConverter-macOS.zip` herunter. Entpacke das ZIP und ziehe `DateiConverter.app` in den Ordner **Programme**. Beim ersten Öffnen kann macOS wegen der fehlenden Developer-ID-Notarisierung eine Sicherheitsmeldung zeigen: Klicke mit der rechten Maustaste auf die App, wähle **Öffnen** und bestätige.
